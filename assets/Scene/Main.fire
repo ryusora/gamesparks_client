@@ -137,10 +137,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 29
+        "__id__": 31
       },
       {
-        "__id__": 32
+        "__id__": 34
+      },
+      {
+        "__id__": 35
       }
     ],
     "_prefab": null,
@@ -342,8 +345,8 @@
     "target": {
       "__id__": 4
     },
-    "component": "GameSparksManager",
-    "handler": "onEditBoxEnded",
+    "component": "GameSparksRTManager",
+    "handler": "onPlayerIDEditBoxEnd",
     "customEventData": ""
   },
   {
@@ -581,7 +584,7 @@
     "target": {
       "__id__": 4
     },
-    "component": "GameSparksManager",
+    "component": "GameSparksRTManager",
     "handler": "login",
     "customEventData": ""
   },
@@ -615,14 +618,14 @@
         "__id__": 18
       },
       {
-        "__id__": 23
+        "__id__": 24
       }
     ],
     "_tag": -1,
     "_active": false,
     "_components": [
       {
-        "__id__": 28
+        "__id__": 30
       }
     ],
     "_prefab": null,
@@ -846,7 +849,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 23
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -886,6 +893,15 @@
     }
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 4
+    },
+    "component": "GameSparksRTManager",
+    "handler": "onProduceActionPressed",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.Node",
     "_name": "CollectAction",
     "_objFlags": 0,
@@ -894,17 +910,17 @@
     },
     "_children": [
       {
-        "__id__": 24
+        "__id__": 25
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 26
+        "__id__": 27
       },
       {
-        "__id__": 27
+        "__id__": 28
       }
     ],
     "_prefab": null,
@@ -949,14 +965,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 23
+      "__id__": 24
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 25
+        "__id__": 26
       }
     ],
     "_prefab": null,
@@ -1001,7 +1017,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 24
+      "__id__": 25
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -1023,7 +1039,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 23
+      "__id__": 24
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -1049,7 +1065,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 23
+      "__id__": 24
     },
     "_enabled": true,
     "transition": 2,
@@ -1069,7 +1085,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 29
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -1105,8 +1125,17 @@
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
     },
     "_N$target": {
-      "__id__": 23
+      "__id__": 24
     }
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 4
+    },
+    "component": "GameSparksRTManager",
+    "handler": "onCollectActionPressed",
+    "customEventData": ""
   },
   {
     "__type__": "7428d73CVRCd7JaY3ezgBU5",
@@ -1124,17 +1153,17 @@
     "node": {
       "__id__": 4
     },
-    "_enabled": true,
+    "_enabled": false,
     "apiKey": "V355836ijVp8",
     "apiSecrect": "T02NyugXsdnpCgKtgWM7yslDtf3urdUs",
     "onLoginSuccessListeners": [
       {
-        "__id__": 30
+        "__id__": 32
       }
     ],
     "onLogoutListeners": [
       {
-        "__id__": 31
+        "__id__": 33
       }
     ]
   },
@@ -1181,5 +1210,30 @@
     "_isAbsVerticalCenter": true,
     "_originalWidth": 0,
     "_originalHeight": 0
+  },
+  {
+    "__type__": "c2ad7QnKQRLgIK2USMaBuDc",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 4
+    },
+    "_enabled": true,
+    "apiKey": "V355836ijVp8",
+    "apiSecret": "T02NyugXsdnpCgKtgWM7yslDtf3urdUs",
+    "onLoginSuccessListeners": [
+      {
+        "__id__": 36
+      }
+    ]
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 17
+    },
+    "component": "HideComponent",
+    "handler": "showNode",
+    "customEventData": ""
   }
 ]

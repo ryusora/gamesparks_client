@@ -46,14 +46,11 @@ var GameSparksMgr = cc.Class({
 			onNonce: this.onNonce.bind(this),
 			onInit: this.onInit.bind(this),
 			onMessage: this.onMessage.bind(this),
-			logger: cc.log,
+			logger: console.log
         });
     },
     onInit(res){
         cc.log("onInit");
-        // this.findRoom();
-        // this.registerRequest();
-        
     },
     onNonce(nonce){
         return CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(nonce, this.apiSecrect));
