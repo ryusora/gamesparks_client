@@ -12,6 +12,7 @@ var GameSparksRTMgr = cc.Class({
         GameSparksRTMgr.instance = this;
         this.initRTSession();
         this.gamesparks = new GameSparks();
+        this.contextID = "Room01";
         this.player = {
             _name: "TestPlayer_01",
             _id: "TP_0001",
@@ -22,6 +23,7 @@ var GameSparksRTMgr = cc.Class({
         };
         this.initPreview();
         this.ready = false;
+        this.RTMessagesListeners = {};
     },
     //==============================================
     initPreview() {
@@ -36,6 +38,12 @@ var GameSparksRTMgr = cc.Class({
 			onMessage: this.onMessage.bind(this),
 			logger: console.log,
         });
+    },
+    registerOpCodeCallback(opCode, callback) {
+        if(!this.RTMessagesListeners[opCode]) {
+            this.RTMessagesListeners[opCode] = [];
+        }
+        this.RTMessagesListeners[opCode].push(callback);
     },
     // ====================Event handlers=============
     onPlayerIDEditBoxEnd(target){
@@ -107,11 +115,7 @@ var GameSparksRTMgr = cc.Class({
         cc.log("onMessage", message);
         if(message["@class"] === ".MatchFoundMessage") {
             let {accessToken, host, port} = message;
-
             this.myRTSession.stop();
-            if(this.intervalLoop)
-                clearTimeout(this.intervalLoop);
-            this.intervalLoop = setInterval(this.mainRTLoop.bind(this), 10);
             this.myRTSession.start(accessToken, host, port);
             this.emitLoginListeners();
         }
@@ -120,7 +124,7 @@ var GameSparksRTMgr = cc.Class({
     sendMatchRequest() {
         let request = {
             matchShortCode: "Farm",
-            matchGroup: "ContextId",
+            matchGroup: this.contextID,
             participantData: {
                 playerID: this.player.getID(),
             },
@@ -131,17 +135,6 @@ var GameSparksRTMgr = cc.Class({
     },
     onMatchResponse(res) {
         cc.log("onMatchResponse", res);
-    },
-    //==============================Test======================================
-    mainRTLoop(){
-        if(this.myRTSession.started) {
-            this.myRTSession.session.update();
-            // let data = RTData.get();
-            // let numCycles = this.numCycles || 0;
-            // data.setLong(1, numCycles);
-            // this.myRTSession.session.sendRTData(1, GameSparksRT.deliveryIntent.RELIABLE, data, []);
-            // this.numCycles = numCycles + 1;
-        }
     },
     //====================Real time Session Functions==========================
     initRTSession(){
@@ -166,17 +159,15 @@ var GameSparksRTMgr = cc.Class({
     onSessionReady(res) {
         cc.log("onSessionReady", res);
         const INIT_CODE = 100;
-        this.myRTSession.session.sendRTData(INIT_CODE, GameSparksRT.deliveryIntent.RELIABLE, RTData.get().setString(1, this.player.getID()), [0]);
+        this.myRTSession.session.sendRTData(INIT_CODE, GameSparksRT.deliveryIntent.RELIABLE, RTData.get().setString(1, this.contextID), [0]);
     },
     onPacketReceived(res) {
         cc.log("onPacketReceived", res);
-        // if(res.opCode == 101) 
-        {
-            let data = res.data;
-            cc.log(data.getString(1));
-            cc.log(data.getString(2));
-            cc.log(data.getString(3));
-            cc.log("Slot " +data.getLong(4));
+        let listeners = this.RTMessagesListeners[res.opCode];
+        if(listeners){
+            for(let i in listeners) {
+                listeners[i](res.data);
+            }
         }
     },
     startRTSession(connectToken, host, port) {
@@ -215,5 +206,11 @@ var GameSparksRTMgr = cc.Class({
 		}
 
 		console.log(myRTSession.session.peerId + ": " + message + " peers:" + peers);
+    },
+    //
+    update(){
+        if(this.myRTSession.started) {
+            this.myRTSession.session.update();
+        }
     }
 });
